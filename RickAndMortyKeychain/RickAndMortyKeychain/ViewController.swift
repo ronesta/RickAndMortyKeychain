@@ -45,7 +45,7 @@ class ViewController: UIViewController {
     }
 
     private func getCharacters() {
-        if let savedCharacters = StorageManager.shared.loadCharacters() {
+        if let savedCharacters = KeychainService.shared.loadCharactersFromKeychain() {
             characters = savedCharacters
             tableView.reloadData()
             return
@@ -57,10 +57,10 @@ class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.characters = character
                     self?.tableView.reloadData()
-                    StorageManager.shared.saveCharacters(character)
+                    KeychainService.shared.saveCharactersToKeychain(characters: character)
                 }
             case .failure(let error):
-                print("Failed to fetch drinks: \(error.localizedDescription)")
+                print("Failed to fetch characters: \(error.localizedDescription)")
             }
         }
     }

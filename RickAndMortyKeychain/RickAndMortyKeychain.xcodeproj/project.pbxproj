@@ -19,6 +19,9 @@
 		E173BF7D2CD537ED00B56507 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E173BF7C2CD537ED00B56507 /* NetworkManager.swift */; };
 		E173BF7F2CD537F700B56507 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E173BF7E2CD537F700B56507 /* NetworkError.swift */; };
 		E173BF812CD5380300B56507 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E173BF802CD5380300B56507 /* ImageLoader.swift */; };
+		E173BF842CD5464C00B56507 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E173BF832CD5464C00B56507 /* KeychainSwift */; };
+		E173BF872CD546D900B56507 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = E173BF862CD546D900B56507 /* KeychainAccess */; };
+		E173BF892CD54D7400B56507 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E173BF882CD54D7400B56507 /* KeychainService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +38,7 @@
 		E173BF7C2CD537ED00B56507 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E173BF7E2CD537F700B56507 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		E173BF802CD5380300B56507 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		E173BF882CD54D7400B56507 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +46,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E173BF842CD5464C00B56507 /* KeychainSwift in Frameworks */,
 				E173BF752CD534AD00B56507 /* SnapKit in Frameworks */,
+				E173BF872CD546D900B56507 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +83,7 @@
 				E173BF7C2CD537ED00B56507 /* NetworkManager.swift */,
 				E173BF7E2CD537F700B56507 /* NetworkError.swift */,
 				E173BF802CD5380300B56507 /* ImageLoader.swift */,
+				E173BF882CD54D7400B56507 /* KeychainService.swift */,
 				E173BF682CD5348000B56507 /* Assets.xcassets */,
 				E173BF6A2CD5348000B56507 /* LaunchScreen.storyboard */,
 				E173BF6D2CD5348000B56507 /* Info.plist */,
@@ -102,6 +109,8 @@
 			name = RickAndMortyKeychain;
 			packageProductDependencies = (
 				E173BF742CD534AD00B56507 /* SnapKit */,
+				E173BF832CD5464C00B56507 /* KeychainSwift */,
+				E173BF862CD546D900B56507 /* KeychainAccess */,
 			);
 			productName = RickAndMortyKeychain;
 			productReference = E173BF5C2CD5347E00B56507 /* RickAndMortyKeychain.app */;
@@ -133,6 +142,8 @@
 			mainGroup = E173BF532CD5347E00B56507;
 			packageReferences = (
 				E173BF732CD534AD00B56507 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				E173BF822CD5464C00B56507 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+				E173BF852CD546D900B56507 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = E173BF5D2CD5347E00B56507 /* Products */;
 			projectDirPath = "";
@@ -163,6 +174,7 @@
 				E173BF642CD5347E00B56507 /* ViewController.swift in Sources */,
 				E173BF7F2CD537F700B56507 /* NetworkError.swift in Sources */,
 				E173BF602CD5347E00B56507 /* AppDelegate.swift in Sources */,
+				E173BF892CD54D7400B56507 /* KeychainService.swift in Sources */,
 				E173BF792CD536B900B56507 /* CustomUILabel.swift in Sources */,
 				E173BF7D2CD537ED00B56507 /* NetworkManager.swift in Sources */,
 				E173BF812CD5380300B56507 /* ImageLoader.swift in Sources */,
@@ -392,6 +404,22 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		E173BF822CD5464C00B56507 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+		E173BF852CD546D900B56507 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -399,6 +427,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E173BF732CD534AD00B56507 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		E173BF832CD5464C00B56507 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E173BF822CD5464C00B56507 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+		E173BF862CD546D900B56507 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E173BF852CD546D900B56507 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
