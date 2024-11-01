@@ -45,7 +45,7 @@ class ViewController: UIViewController {
     }
 
     private func getCharacters() {
-        if let savedCharacters = KeychainService.shared.loadCharactersFromKeychain() {
+        if let savedCharacters = KeychainService.shared.loadCharacters() {
             characters = savedCharacters
             tableView.reloadData()
             return
@@ -57,7 +57,7 @@ class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.characters = character
                     self?.tableView.reloadData()
-                    KeychainService.shared.saveCharactersToKeychain(characters: character)
+                    KeychainService.shared.saveCharacters(characters: character)
                 }
             case .failure(let error):
                 print("Failed to fetch characters: \(error.localizedDescription)")
@@ -103,4 +103,3 @@ extension ViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
