@@ -13,6 +13,8 @@
 		E173BF692CD5348000B56507 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E173BF682CD5348000B56507 /* Assets.xcassets */; };
 		E173BF6C2CD5348000B56507 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E173BF6A2CD5348000B56507 /* LaunchScreen.storyboard */; };
 		E173BF752CD534AD00B56507 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E173BF742CD534AD00B56507 /* SnapKit */; };
+		E173BF772CD5366A00B56507 /* CharacterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E173BF762CD5366A00B56507 /* CharacterTableViewCell.swift */; };
+		E173BF792CD536B900B56507 /* CustomUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E173BF782CD536B900B56507 /* CustomUILabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,8 @@
 		E173BF682CD5348000B56507 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E173BF6B2CD5348000B56507 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E173BF6D2CD5348000B56507 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E173BF762CD5366A00B56507 /* CharacterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterTableViewCell.swift; sourceTree = "<group>"; };
+		E173BF782CD536B900B56507 /* CustomUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUILabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 				E173BF5F2CD5347E00B56507 /* AppDelegate.swift */,
 				E173BF612CD5347E00B56507 /* SceneDelegate.swift */,
 				E173BF632CD5347E00B56507 /* ViewController.swift */,
+				E173BF762CD5366A00B56507 /* CharacterTableViewCell.swift */,
+				E173BF782CD536B900B56507 /* CustomUILabel.swift */,
 				E173BF682CD5348000B56507 /* Assets.xcassets */,
 				E173BF6A2CD5348000B56507 /* LaunchScreen.storyboard */,
 				E173BF6D2CD5348000B56507 /* Info.plist */,
@@ -144,7 +150,9 @@
 			files = (
 				E173BF642CD5347E00B56507 /* ViewController.swift in Sources */,
 				E173BF602CD5347E00B56507 /* AppDelegate.swift in Sources */,
+				E173BF792CD536B900B56507 /* CustomUILabel.swift in Sources */,
 				E173BF622CD5347E00B56507 /* SceneDelegate.swift in Sources */,
+				E173BF772CD5366A00B56507 /* CharacterTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
