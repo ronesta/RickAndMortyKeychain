@@ -165,4 +165,29 @@ final class CharacterTableViewCell: UITableViewCell {
 
         return UIImage(cgImage: cgImage)
     }
+
+    func configure(with character: Character, image: UIImage?) {
+        activityIndicator.startAnimating()
+        characterImageView.image = image
+        nameLabel.text = character.name
+        speciesAndGenderLabel.text = "\(character.species), \(character.gender)"
+        watchEpisodesButton.setTitle("▶ Watch episodes", for: .normal)
+        markerImageView.image = UIImage(named: "marker")
+        locationLabel.text = character.location.name
+        statusLabel.text = character.status
+
+        switch character.status {
+        case "Dead":
+            let filteredImage = self.applyBlackAndWhiteFilter(to: image ?? UIImage())
+            characterImageView.image = filteredImage
+            statusLabel.backgroundColor = .red.withAlphaComponent(0.1)
+            statusLabel.textColor = .systemRed
+        case "unknown":
+            statusLabel.backgroundColor = .gray.withAlphaComponent(0.1)
+            statusLabel.textColor = .systemGray
+        default:
+            statusLabel.backgroundColor = .green.withAlphaComponent(0.2)
+            statusLabel.textColor = UIColor(red: 34/255, green: 139/255, blue: 34/255, alpha: 1)
+        }
+    }
 }
