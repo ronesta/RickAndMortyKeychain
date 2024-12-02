@@ -24,24 +24,32 @@ final class NetworkManager {
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let error {
                 print("Error: \(error.localizedDescription)")
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
                 return
             }
 
             guard let data else {
                 print("No data")
-                completion(.failure(NetworkError.noData))
+                DispatchQueue.main.async {
+                    completion(.failure(NetworkError.noData))
+                }
                 return
             }
 
             do {
                 let character = try JSONDecoder().decode(PostCharacters.self, from: data)
-                completion(.success(character.results))
+                DispatchQueue.main.async {
+                    completion(.success(character.results))
+                }
                 print("Load data", self.counter)
                 self.counter += 1
             } catch {
                 print("Decoding error: \(error.localizedDescription)")
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
         }.resume()
     }

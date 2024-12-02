@@ -10,52 +10,67 @@ import Security
 
 final class KeychainService {
     static let shared = KeychainService()
+    private let queue = DispatchQueue(label: "KeychainServiceQueue")
+    private let charactersKey = "characters"
+
     private init() {}
 
     func saveCharacters(characters: [Character]) {
-        do {
-            let data = try JSONEncoder().encode(characters)
-            let status = saveData(data, forKey: "characters")
-            if status != errSecSuccess {
-                print("Failed to save characters to keychain. Error code: \(status)")
+        queue.sync {
+            do {
+                let data = try JSONEncoder().encode(characters)
+                let status = saveData(data, forKey: charactersKey)
+                if status != errSecSuccess {
+                    print("Failed to save characters to keychain. Error code: \(status)")
+                }
+            } catch {
+                print("Failed to encode characters: \(error.localizedDescription)")
             }
-        } catch {
-            print("Failed to encode characters: \(error.localizedDescription)")
         }
     }
 
     func loadCharacters() -> [Character]? {
-        guard let data = loadData(forKey: "characters") else {
-            return nil
-        }
+        return queue.sync {
+            guard let data = loadData(forKey: charactersKey) else {
+                return nil
+            }
 
-        do {
-            let characters = try JSONDecoder().decode([Character].self, from: data)
-            return characters
-        } catch {
-            print("Failed to decode characters: \(error.localizedDescription)")
-            return nil
+            do {
+                let characters = try JSONDecoder().decode([Character].self, from: data)
+                return characters
+            } catch {
+                print("Failed to decode characters: \(error.localizedDescription)")
+                return nil
+            }
         }
     }
 
     func deleteCharacters() {
-        deleteData(forKey: "characters")
-        print("Characters have been removed from the keychain.")
+        queue.sync {
+            deleteData(forKey: charactersKey)
+            print("Characters have been removed from the keychain.")
+        }
     }
 
     func saveImage(_ data: Data, key: String) {
-        let status = saveData(data, forKey: key)
-        if status != errSecSuccess {
-            print("Failed to save image to keychain. Error code: \(status)")
+        queue.sync {
+            let status = saveData(data, forKey: key)
+            if status != errSecSuccess {
+                print("Failed to save image to keychain. Error code: \(status)")
+            }
         }
     }
 
     func loadImage(key: String) -> Data? {
-        return loadData(forKey: key)
+        return queue.sync {
+            return loadData(forKey: key)
+        }
     }
 
     func deleteImage(key: String) {
-        deleteData(forKey: key)
+        queue.sync {
+            deleteData(forKey: key)
+        }
     }
 }
 
