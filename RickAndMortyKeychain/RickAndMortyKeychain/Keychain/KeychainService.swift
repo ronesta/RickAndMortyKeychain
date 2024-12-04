@@ -16,107 +16,102 @@ final class KeychainService {
     private init() {}
 
     func saveCharacters(characters: [Character]) {
-        queue.sync {
-            do {
-                let data = try JSONEncoder().encode(characters)
-                let status = saveData(data, forKey: charactersKey)
-                if status != errSecSuccess {
-                    print("Failed to save characters to keychain. Error code: \(status)")
-                }
-            } catch {
-                print("Failed to encode characters: \(error.localizedDescription)")
+        do {
+            let data = try JSONEncoder().encode(characters)
+            let status = saveData(data, forKey: charactersKey)
+
+            if status != errSecSuccess {
+                print("Failed to save characters to keychain. Error code: \(status)")
             }
+        } catch {
+            print("Failed to encode characters: \(error.localizedDescription)")
         }
     }
 
     func loadCharacters() -> [Character]? {
-        return queue.sync {
-            guard let data = loadData(forKey: charactersKey) else {
-                return nil
-            }
+        guard let data = loadData(forKey: charactersKey) else {
+            return nil
+        }
 
-            do {
-                let characters = try JSONDecoder().decode([Character].self, from: data)
-                return characters
-            } catch {
-                print("Failed to decode characters: \(error.localizedDescription)")
-                return nil
-            }
+        do {
+            return try JSONDecoder().decode([Character].self, from: data)
+        } catch {
+            print("Failed to decode characters: \(error.localizedDescription)")
+            return nil
         }
     }
 
     func deleteCharacters() {
-        queue.sync {
-            deleteData(forKey: charactersKey)
-            print("Characters have been removed from the keychain.")
-        }
+        deleteData(forKey: charactersKey)
+        print("Characters have been removed from the keychain.")
     }
 
     func saveImage(_ data: Data, key: String) {
-        queue.sync {
-            let status = saveData(data, forKey: key)
-            if status != errSecSuccess {
-                print("Failed to save image to keychain. Error code: \(status)")
-            }
+        let status = saveData(data, forKey: key)
+
+        if status != errSecSuccess {
+            print("Failed to save image to keychain. Error code: \(status)")
         }
     }
 
     func loadImage(key: String) -> Data? {
-        return queue.sync {
-            return loadData(forKey: key)
-        }
+        return loadData(forKey: key)
     }
 
     func deleteImage(key: String) {
-        queue.sync {
-            deleteData(forKey: key)
-        }
+        deleteData(forKey: key)
     }
 }
 
 // MARK: - Private Keychain Helpers
 extension KeychainService {
     private func saveData(_ data: Data, forKey key: String) -> OSStatus {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key,
-            kSecValueData as String: data
-        ]
+        return queue.sync {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: key,
+                kSecValueData as String: data
+            ]
 
-        SecItemDelete(query as CFDictionary)
+            SecItemDelete(query as CFDictionary)
 
-        return SecItemAdd(query as CFDictionary, nil)
+            return SecItemAdd(query as CFDictionary, nil)
+        }
     }
 
     private func loadData(forKey key: String) -> Data? {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key,
-            kSecReturnData as String: kCFBooleanTrue!,
-            kSecMatchLimit as String: kSecMatchLimitOne
-        ]
+        return queue.sync {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: key,
+                kSecReturnData as String: kCFBooleanTrue!,
+                kSecMatchLimit as String: kSecMatchLimitOne
+            ]
 
-        var dataTypeRef: AnyObject?
-        let status = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
+            var result: AnyObject?
+            let status = SecItemCopyMatching(query as CFDictionary, &result)
 
-        if status == errSecSuccess {
-            return dataTypeRef as? Data
-        } else {
-            print("Failed to load data for key \(key). Error code: \(status)")
-            return nil
+            if status == errSecSuccess {
+                return result as? Data
+            } else {
+                print("Failed to load data for key \(key). Error code: \(status)")
+                return nil
+            }
         }
     }
 
     private func deleteData(forKey key: String) {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key
-        ]
+        return queue.sync {
+            let query: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: key
+            ]
 
-        let status = SecItemDelete(query as CFDictionary)
+            let status = SecItemDelete(query as CFDictionary)
 
-        if status != errSecSuccess && status != errSecItemNotFound {
-            print("Failed to delete data for key \(key). Error code: \(status)")
+            if status != errSecSuccess && status != errSecItemNotFound {
+                print("Failed to delete data for key \(key). Error code: \(status)")
+            }
         }
     }
 }
